@@ -4,8 +4,12 @@ export function gethomemultidata() {
   url: '/home/multidata'
   })
 }
-export function getgoods(){
+export function getgoods(type,page){
   return request1({
-    url: '/home/data'
+    url: '/home/data',
+    params: {
+      type,
+      page,
+    }
   })
 }

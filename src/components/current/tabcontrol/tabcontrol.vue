@@ -27,6 +27,7 @@ data() {
 methods: {
   itemchange(index) {
     this.currentindex = index
+    this.$emit('tbclick',index)
   }
 }
 }
@@ -35,7 +36,7 @@ methods: {
 <style>
 .tabcontrol {
   display: flex;
-  text-align: center;
+  text-align: center
 }
 .activestyle {
   color: var(--color-high-text);
