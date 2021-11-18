@@ -1,6 +1,6 @@
 <template>
   <swiper>
-    <swiperitem v-for="(item, id) in banners" :key="id">
+    <swiperitem v-for="(item, id) in banners" :key="id" class="swiperit">
       <a :href="item.link">
         <img :src="item.image" alt="">
       </a>
@@ -29,5 +29,7 @@
 </script>
 
 <style scoped>
-
+.swiperit img {
+  width: 100%;
+}
 </style>
