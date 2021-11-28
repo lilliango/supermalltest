@@ -23,7 +23,8 @@ props: {
    }
  },
  pullUpLoad : {
-   type: Boolean
+   type: Boolean,
+   default: false
  }
 },
 mounted() {
@@ -33,7 +34,7 @@ mounted() {
     observeDOM: true,
     // scroll里面的元素可以监听点击事件（button设不设置都行）
     click: true,
-    // 使用scroll组件时父传值，动态决定是否实时监听，监听滚动位置时必须写这个属性未true
+    // 使用scroll组件时父传值 一般是是3，动态决定是否实时监听，监听滚动位置时需要
     probeType: this.probeTypeNum,
     // 动态决定是否监听上拉加载
     pullUpLoad: this.pullUpLoad,
@@ -42,18 +43,32 @@ mounted() {
   this.scroll.on('scroll',position=> {
     // 把滚动事件和位置传出去，父组件使用时监听自定义事件且可以得到position的值
     this.$emit('srcoll',position)
+    // 
   })
-  // 监听上拉
-  this.scroll.on('pullingUp',()=>{
+  // 监听滚动到底部上拉,传出自定义事件，监听到上拉事件后可以执行获取数据的方法（上拉加载更多）
+  if(this.pullUpLoad) {
+    this.scroll.on('pullingUp',()=>{
     this.$emit('pullingUp')
-
   })
+  }
 },
 methods: {
   // 封装scrollTo方法
-  scrollTo(x,y,time=500) {
+  scrollTo(x,y,time) {
     // better-scroll的滚动到某个位置的方法，参数：x,y,滚动时间
-      this.scroll.scrollTo(x,y,time)
+      this.scroll && this.scroll.scrollTo(x,y,time)
+  },
+  // 封装完成上拉函数
+  finishPullUp() {
+   this.scroll && this.scroll.finishPullUp()
+  },
+  // 封装刷新函数
+  refresh() {
+    this.scroll && this.scroll.refresh
+  },
+  // 封装获取滚动到的y值的方法
+  getscrollY() {
+    return this.scroll? this.scroll.y : 0
   }
 }
 }

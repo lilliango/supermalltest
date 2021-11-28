@@ -56,6 +56,7 @@ methods: {
 .baritem {
  flex: 1;
  text-align: center;
+ padding-bottom: 8px;
 }
 .baritem img {
   width: 24px;

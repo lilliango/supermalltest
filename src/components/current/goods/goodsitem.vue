@@ -1,9 +1,10 @@
 <template>
-  <div class="goodsitem">
-    <img :src="goodsitem.show.img" alt="" @load="imgload">
+  <div class="goodsitem" @click="goddsitemclick">
+    <!-- 图片使用懒加载 -->
+    <img v-lazy ="showimg" alt="" @load="imgload">
     <div class="goodsinfo">
       <p>{{goodsitem.title}}</p>
-      <span class="price">{{goodsitem.price}}</span>
+      <span class="price">￥{{goodsitem.price}}</span>
       <span class="collect">{{goodsitem.cfav}}</span>
     </div>
   </div>
@@ -20,10 +21,20 @@ props: {
     }
   }
 },
+computed:{
+ showimg() {
+   return  this.goodsitem.img || this.goodsitem.image || this.goodsitem.show.img
+ }
+},
 methods: {
+  // 监听图片加载完成，加载完成后发送一个事件，在homevue里面监听图片加载完成调用sroll组件scroll实例的刷新
   imgload() {
     // 事件总线，像事件总线发送自定义事件，在另外组件监听
     this.$bus.$emit('goodsitemimgload')
+  },
+  // 监听每个商品的点击，跳转到详情页，并且把里面的iid参数传过去
+  goddsitemclick() {
+    this.$router.push('/detail/' + this.goodsitem.iid)
   }
 }
 }
