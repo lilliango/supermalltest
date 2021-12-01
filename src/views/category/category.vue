@@ -134,16 +134,18 @@ contentsrcoll(position) {
   position: absolute;
   width: 80%;
   height: calc(100% - 44px);
-  top: 44px;
+  top: 45px;
   left: 20%;
   background-color: #fff;
+  overflow: hidden;
 }
 .content {
   height: 100%;
-  overflow: hidden;
 }
 .copytabcontrol {
   background-color: #fff;
+  position: relative;
+  z-index: 999;
 }
 
 </style>
