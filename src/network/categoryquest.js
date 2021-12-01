@@ -6,20 +6,20 @@ export function getleftbar() {
  })
 }
 // 请求右上侧图片数据的函数
-export function gettopimg() {
+export function gettopimg(maitKey) {
   return request1({
     url: 'subcategory',
     params: {
-      maitKey: 3627
+      maitKey,
     }
   })
 }
 // 右下侧tabcontrol对应数据请求的函数
-export function getgoods(type) {
+export function getgoods(miniWallkey,type) {
   return request1({
     url: 'subcategory/detail',
     params: {
-      miniWallkey: 10062603,
+      miniWallkey,
       type,
     }
   })

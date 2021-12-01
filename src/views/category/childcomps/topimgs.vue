@@ -33,8 +33,8 @@ methods: {
 
 <style scoped>
 .topimgs img {
-  margin: 8px 25px;
-  width: 80px;
-  height: 80px;
+  margin: 8px 15px;
+  width: 70px;
+  height: 70px;
 }
 </style>

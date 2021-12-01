@@ -1,7 +1,10 @@
 <template>
 <div class="category">
+  <!-- 顶部 -->
   <navbar class="navbar"><template v-slot:center>商品分类</template></navbar>
-  <leftbar :bardata="leftbardata" class="left"></leftbar>
+  <!-- 左侧 -->
+  <leftbar :bardata="leftbardata" class="left" @leftbarclick='leftbarclick'></leftbar>
+  <!-- 右侧 -->
   <div class="right">
   <!-- 复制的tabcontrol 平时隐藏， 当滚到原tabcontrol的offsetTop值时 让这个copy版显示 -->
   <tabcontrol :titles='["新款","热销","流行"]'  @tbclick='tbclick' 
@@ -41,6 +44,8 @@ goodslist,
 data() {
   return {
     leftbardata: [],
+    maitKey: 3627,
+    miniWallkey: 10062603,
     topimg: [],
     goods: {
      'new': [],
@@ -58,16 +63,37 @@ created() {
   getleftbar().then(res => {
     this.leftbardata = res.data.data.category.list
   })
-  // 获取上部图片数据
-   gettopimg().then(res => {
+  // 获取左侧第一栏 上部图片数据
+   gettopimg(this.maitKey).then(res => {
     this.topimg = res.data.data.list
      })
-  // 获取tabcontrol下面的数据
-   this.getgoods('new')
-   this.getgoods('sell')
-   this.getgoods('pop') 
+  // 获取左侧第一栏 的tabcontrol下面的数据 一开始使用push是不行的，要用=赋值  ...res.data是因为一开始使用push，res.data是数组
+   getgoods(this.miniWallkey,'new').then(res =>this.goods['new'] = [...res.data])
+   getgoods(this.miniWallkey,'sell').then(res =>this.goods['sell'] = res.data)
+   getgoods(this.miniWallkey,'pop').then(res =>this.goods['pop']= res.data)
 },
 methods: {
+  // 左侧导航栏点击，传入从leftbar页面对应参数，通过点击获取的不同参数获取不同数据展示
+  leftbarclick(maitKey,miniWallkey) {
+    // 根据点击时获取的maitkey获取不同数据 并保存
+     gettopimg(maitKey).then(res => {
+    this.topimg = res.data.data.list
+     })
+    //  根据点击时获取的miniWallkey,和type获取不同数据
+     getgoods(miniWallkey,'new').then(res=> {
+    this.goods['new'] = res.data
+  })
+   getgoods(miniWallkey,'sell').then(res=> {
+    this.goods['sell'] = res.data
+  })
+   getgoods(miniWallkey,'pop').then(res=> {
+    this.goods['pop'] = res.data
+  })
+  //  this.maitKey = maitKey
+  //  this.miniWallkey = miniWallkey
+  //  this.index = index
+  //  console.log(maitKey,miniWallkey )
+  },
   // 点击tabcontrol里面的哪个类别 让currenttab等于tab里当前点击的类别索引值对应的数据
 tbclick(index) {
   this.currenttab = this.tab[index]
@@ -76,11 +102,11 @@ tbclick(index) {
   this.$refs.tabcontrol1.currentindex = index
  },
 //  根据传入类型参数获取对应数据并储存的函数
- getgoods(type) {
- getgoods(type).then(res=> {
-    this.goods[type].push(...res.data)
-  })
- },
+//  getgoods(type) {
+//  getgoods(miniWallkey,type).then(res=> {
+//     this.goods[type].push(...res.data)
+//   })
+//  },
 //  上部图片加载完成 获取tabcontrol的offsetTop
 toploadimg() {
  this.taboffsettop = this.$refs.tabcontrol1.$el.offsetTop
@@ -106,10 +132,10 @@ contentsrcoll(position) {
 }
 .right {
   position: absolute;
-  width: 70%;
+  width: 80%;
   height: calc(100% - 44px);
   top: 44px;
-  left: 30%;
+  left: 20%;
   background-color: #fff;
 }
 .content {

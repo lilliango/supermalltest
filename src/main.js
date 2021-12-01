@@ -8,6 +8,7 @@ import Fastclick from 'fastclick'
 import  VueLazyLoad from 'vue-lazyload'
 
 Vue.config.productionTip = false
+// 事件总线
 Vue.prototype.$bus = new Vue()
 // 安装自己封装的toast插件
 Vue.use(toast)
