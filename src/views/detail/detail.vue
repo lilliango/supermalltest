@@ -141,7 +141,7 @@ methods: {
   }
   },
   // 加入购物车
-  ...mapActions(['addcart']), // 引入mapActions 映射到组件中
+  ...mapActions(['addcart']), // 引入mapActions 映射到组件中 就可以直接通过this.方法名使用
   adddtocart() {
     // 获取商品信息
     let productsinfo = {}
